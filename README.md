@@ -101,7 +101,7 @@ git init
 git add AI_ML_Cycle1.ipynb diabetes_cleaned.csv README.md
 git commit -m "Add data preprocessing lab notebook, cleaned dataset, and README"
 git branch -M main
-git remote add origin https://github.com/<your-username>/24CSP503-Exp1-Preprocessing.git
+git remote add origin https://github.com/devcodes28/Data-Preprocessing-MLL.git
 git push -u origin main
 ```
 
