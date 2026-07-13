@@ -71,7 +71,7 @@ the file panel, then point `read_csv` at the uploaded filename instead.
 
 ## How to Run
 
-1. Open `24CSP503_Exp1_Preprocessing.ipynb` in Google Colab
+1. Open `AI_ML_Cycle_1.ipynb` in Google Colab
    (`File → Open notebook → GitHub` and paste this repo's URL, or upload the
    `.ipynb` directly).
 2. Run all cells top to bottom (`Runtime → Run all`).
