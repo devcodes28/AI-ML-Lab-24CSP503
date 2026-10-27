@@ -1,0 +1,60 @@
+You are an expert ML engineer helping me in a university AI/ML lab exam. Generate a COMPLETE, END-TO-END Jupyter/Colab notebook (.ipynb if you can create files, otherwise clearly labelled cells "Cell N [Markdown/Code]") for the dataset and task below. It must run top to bottom with ZERO errors.
+
+## INPUTS
+- Dataset: [attached file / path]
+- Target column: [name, or "infer it"]
+- Task: [classification / regression / clustering / "infer from target"]
+- Examiner's exact question: [paste here]
+- Required model(s): [e.g., ANN, Random Forest, SVM, or "choose the best"]
+- Environment: Google Colab, Python 3, pandas, numpy, scikit-learn, matplotlib, seaborn, TensorFlow/Keras.
+
+## NOTEBOOK STRUCTURE (Markdown headings exactly as below; add a 1-2 line explanation of what and why under each, plus a short interpretation after every major output, since I must explain in a viva)
+1. Title & Problem Statement
+2. Import Libraries (random seed = 42 everywhere)
+3. Load Dataset
+4. Initial Data Exploration (shape, head, info, describe, dtypes, unique counts)
+5. Data Type Mismatch Handling (numbers stored as strings, dates, categoricals stored as numbers, strip whitespace, replace '?', 'NA', 'n/a', '-' with NaN, pd.to_numeric(errors='coerce'), pd.to_datetime)
+6. Missing Value Analysis & Imputation (counts, percentages, heatmap; median for skewed numeric, mean for normal, mode for categorical; drop columns with >50% missing, with justification)
+7. Duplicate Detection & Removal (count before/after)
+8. Outlier Detection & Treatment (boxplots + IQR; cap/winsorize rather than delete unless justified; before/after plots)
+9. Exploratory Data Analysis (target distribution, class imbalance check, histograms, correlation heatmap, key relationships, short insights)
+10. Feature Engineering & Encoding (drop ID/constant/leaky columns, label/one-hot encoding, date features, drop one of any pair with |corr| > 0.9)
+11. Train-Test Split (80/20, stratified for classification, random_state=42). Split BEFORE scaling/imputing/SMOTE; fit all transformers on train only to prevent data leakage
+12. Feature Scaling (StandardScaler/MinMax, fit on train only)
+13. Class Imbalance Handling (only if needed: class_weight or SMOTE on TRAIN only)
+14. Baseline Models (5-6 relevant models, e.g., Logistic/Linear Regression, KNN, Decision Tree, Random Forest, SVM, Gradient Boosting/XGBoost; compare with 5-fold cross-validation in a table)
+15. Artificial Neural Network FROM SCRATCH (NumPy only, simple feedforward fully-connected ANN; NO CNN, RNN, LSTM, AlexNet, or transfer learning)
+    Build a class `NeuralNetwork` with commented methods:
+    a) __init__(layer_sizes, learning_rate, epochs): Xavier/He weight initialisation (seed 42), zero biases
+    b) Activations + derivatives: sigmoid, ReLU, tanh, softmax (choose per task)
+    c) forward_propagation(X): Z = A_prev·W + b, A = activation(Z); cache Z and A per layer
+    d) compute_loss: binary cross-entropy (sigmoid output) / categorical cross-entropy (softmax, one-hot) / MSE (linear output for regression)
+    e) backward_propagation: chain rule computing dZ, dW, db from output layer back to the first hidden layer
+    f) update_parameters: W = W - lr*dW, b = b - lr*db
+    g) fit(X, y): loop over epochs (full-batch or mini-batch), store the loss per epoch, print the loss every 50 epochs
+    h) predict(X) and predict_proba(X)
+    Architecture: input -> 2 hidden layers (e.g., 16 and 8 neurons, ReLU) -> output (sigmoid/softmax/linear by task).
+    Include: a markdown cell with the forward-pass and backpropagation equations (dZ, dW, db) for one layer; a loss-vs-epochs plot; printed weight and bias shapes; evaluation on the test set; a small gradient check on a tiny network (optional); then the SAME architecture in Keras Sequential (Dense, Adam, EarlyStopping) for comparison.
+16. Hyperparameter Tuning (GridSearchCV/RandomizedSearchCV for the best 1-2 sklearn models; 2-3 ANN variations of learning rate, neurons, epochs shown in a comparison table)
+17. Final Model Evaluation on Test Set
+    - Classification: Accuracy, Precision, Recall, F1, ROC-AUC, confusion matrix heatmap, classification report, ROC curve
+    - Regression: MAE, MSE, RMSE, R², Adjusted R², actual-vs-predicted plot, residual plot
+    - Clustering: Silhouette, Davies-Bouldin, elbow method, PCA cluster plot
+18. Model Comparison Table (all models including scratch ANN and Keras ANN, sorted by best metric) + bar chart
+19. Feature Importance (tree-based or permutation importance) with interpretation
+20. Save Best Model & Preprocessing (joblib/.h5) and show a sample prediction on new data
+21. Conclusion (best model, its metrics, key findings, limitations, improvements)
+
+## CODING RULES
+- Make the code GENERIC: put the target column name in one variable at the top and auto-detect numeric vs categorical columns with select_dtypes, so it adapts to any dataset.
+- Use sklearn Pipeline/ColumnTransformer for preprocessing where possible. NO data leakage and NO training on test data.
+- Handle edge cases (all-NaN columns, single class, object columns, infinite values). No deprecated functions.
+- Add concise inline comments on every important line.
+- Achieve the HIGHEST legitimate evaluation metrics through tuning and ensembles (Voting/Stacking), while keeping everything explainable.
+- If the dataset exceeds 100k rows, sample sensibly for tuning to keep runtime under ~10 minutes.
+- If the task is ambiguous, state your assumption in the first markdown cell and proceed.
+- If a library may be missing, add `!pip install xgboost imbalanced-learn` at the top.
+
+## OUTPUT FORMAT
+1. The complete notebook.
+2. Then a 5-line viva cheat-sheet: why each preprocessing choice was made, why the best model won, what each metric means, and a one-line explanation of forward pass, backpropagation, and the weight/bias update rule.
